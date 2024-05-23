@@ -1,0 +1,49 @@
+
+:root {
+/* Colores */
+  --primary-color: #2b285b;
+  --secondary-color: #5ebeb3;
+  --text-color: white;
+  --dark-gray:#333;
+  /* Tipografias */
+  --primary-font: 'Bebas Neue', sans-serif;
+  --secondary-font: 'Poppins', sans-serif;
+
+  font-family: var(--secondary-font);
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  background-color: rgba(255, 255, 255, 0.87);
+  color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  
+}
+
+*{
+  padding:0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#root{
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.main-container{
+  flex: 1;
+  max-width: 100dvw;
+  display:flex;
+  flex-direction: column;
+  
+}
+
+
+

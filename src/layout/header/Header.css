@@ -1,0 +1,306 @@
+
+/** ========== HEADER ========== */
+.main-header{
+    background-color: var(--primary-color);
+    color:white;
+    position: sticky;
+    top:0;
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap:.5rem;
+    height: 60px;
+}
+.header-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+    
+}
+.header-img{
+    width:80px;
+    height:40px;
+    object-fit: cover;
+    z-index: 1;
+}
+nav.nav-menu{
+   position: absolute;
+   top:50vh;
+   left: 50%;
+   transform:  translateY(-50%) translateX(-50%);
+   height: 0;
+   width: 0;
+   border-radius: 50%;
+   display: flex;
+   flex-direction: column;
+   background-color: var(--primary-color);
+   overflow: hidden;
+   transition: all .3s ease-in-out;
+}
+ul.nav-list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    padding: 0 2rem;
+}
+.nav-item{
+    display: flex;
+}
+.nav-item a{
+    display: inline-block;
+    width: 100%;
+    padding: 2rem 1.5rem;
+    text-decoration: none;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.nav-item a:hover span::before{
+    width: 80%;
+}
+
+.nav-item:not(:last-child){
+    border-bottom: 1px solid rgba(144, 144, 144, 0.5);
+}
+.user-info{
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-right: .25rem;
+    padding:1rem;
+}
+.user-data{
+    display:none;
+}
+.user-info .user-image{
+    width: 60px;
+    height: 60px;
+}
+.user-info .user-cart{
+    font-size: 1.75rem;
+    &:hover{
+        color:var(--secondary-color);
+        cursor: pointer;
+    }
+}
+/** ========== END HEADER ==========  */
+
+/*? ========== BURGER MENU ========== */
+.check-menu{
+    display: none;
+}
+body:has(.check-menu:checked){
+    overflow: hidden;
+}
+.check-menu:checked ~ .user-info .user-data{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    position: fixed;
+    bottom: 2rem;
+    left: 0;
+    width: 100%;
+    align-items: center;
+}
+.check-menu:checked~nav.nav-menu{
+    height: 100vh;
+    position: fixed;
+}
+
+.check-menu:checked ~ label.burger-menu .burger-line{
+    background-color: transparent;
+}
+.check-menu:checked ~ .burger-menu .burger-line::before{
+    top: 0;
+    transform: rotate(45deg);
+}
+.check-menu:checked ~ .burger-menu .burger-line::after{
+    top: 0;
+    transform: rotate(-45deg);
+}
+
+.check-menu:checked~nav.nav-menu{
+    height: 150vh;
+    width: 150vh;
+}
+label.burger-menu{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+.burger-line{
+    width: 25px;
+    height: 3px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px;
+    position: relative;
+    transition: all .2s ease-in-out;
+}
+.burger-line::before,
+.burger-line::after{
+    content:"";
+    display: block;
+    width: 25px;
+    height: 3px;
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px;
+    top: -10px;
+    transition: all .2s ease-in-out;
+} 
+.burger-line::after{
+    top: 10px;
+}
+/*? ========== END BURGER MENU ========== */
+
+
+/* ? MEDIAS QUERIES */
+@media screen and (width > 640px){
+    .table-container{
+        max-width: 640px;
+        margin: 3rem 0;
+    }
+    .course-picture img{
+        width: 60vh;
+    }
+    }
+    
+@media screen and (width > 1024px){
+    .main-header{
+        justify-content: start;
+        align-items: stretch;
+    }
+    .header-logo{
+        padding-left: .75rem;
+    }
+    .user-info{
+        margin-left: auto; 
+        .user-data{
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+
+            .user-image{
+                order: 1; 
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+    
+    label.burger-menu{
+        display: none;
+    }
+    nav.nav-menu{
+        position: relative;
+        display: flex !important;
+        height: auto;
+        width: auto;
+        transform: none; 
+        top: 0;
+        left: 0;
+        border-radius: 0;
+        flex-direction: row;
+        transition: none;
+
+        .nav-list{
+            flex-direction: row;
+            padding: 0;
+        }
+        .nav-item{
+            border: none;
+        }
+        .nav-item a{
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            transition: background-color .3s;
+        }
+    }
+    .nav-item a span{
+        position: relative;
+        padding: 5px;
+    }
+    
+    .nav-item a span::before{
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 5px;
+        bottom: 0;
+        left: 10%;
+        background-color: var(--secondary-color); 
+        transition: width 0.3s ease-in-out; 
+    }
+    .form-container{
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+    .register-container{
+        width: 100vh;
+        max-width: 1900px;
+    }
+    .contact-map-wrapper{
+        border-top-right-radius: 10px;
+        border-bottom-left-radius:0;
+        border-top-left-radius: 0;
+    }
+    .our-services{
+        flex-direction: row;
+    }
+    .about-us{
+        display:flex;
+        align-items: center;
+        margin-top: 5rem;
+    }
+    .student-img{
+        margin-top: 0;
+    }
+    .course-detail{
+        flex-direction: row;
+        align-items: start;
+    }
+    .course-picture img{
+        padding: 0 1rem;
+        margin: 4rem auto;
+        width: 60vh;
+    }
+    .course-actions{
+        text-align: right;
+    }
+    .about-course{
+        padding: 1rem;
+        margin-top: 4rem;
+    }
+    .table-container{
+        width:100%;
+        overflow-x:auto;
+        max-width: 1080px;
+        padding: 4rem 0;
+    }
+
+    .main-contact{
+        display: flex;
+        justify-content: center;
+    }
+    .main-container:has(.main-contact){
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin:0 auto;
+    }
+    .contact-map-wrapper iframe{
+        flex:1;
+    }
+}
+/* ? END MEDIAS QUERIES */
