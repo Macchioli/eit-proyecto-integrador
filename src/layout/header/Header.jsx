@@ -2,10 +2,15 @@ import { NavLink } from 'react-router-dom';
 import './Header.css';
 import logo from '/src/assets/images/logo_guri.png'
 import userImage from '/src/assets/images/user-img.avif'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { useOrder } from '../../context/OrderContext';
 
 export default function Header(){
 
     const isAdmin = true;
+
+    const {toggleSidebarOrder, count} = useOrder();
 
     return (
 
@@ -58,8 +63,12 @@ export default function Header(){
                         </div>
                         <img className="user-image" src={userImage} alt="" />
                     </div>
-                    <div className="user-cart">
-                        <i className="fa-solid fa-cart-shopping"></i>
+                    <div className={`user-cart-container ${count < 1 ? '' : 'show-circle'}`} data-count={count}>
+                        <FontAwesomeIcon 
+                        className='user-cart'
+                        icon={faCartShopping}
+                        onClick={()=>toggleSidebarOrder()} 
+                        />
                     </div>
                 </div>
             </header>

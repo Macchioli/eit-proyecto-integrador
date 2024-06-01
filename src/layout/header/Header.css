@@ -6,7 +6,7 @@
     position: sticky;
     top:0;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -74,6 +74,28 @@ ul.nav-list{
     gap: .5rem;
     margin-right: .25rem;
     padding:1rem;
+
+    .user-cart-container{
+        position: relative;
+
+        &.show-circle{
+            &::before{
+                content: attr(data-count); /* le damos atributo para que tome un data-count */
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                background-color: red;
+                color:white;
+                border-radius: 50%;
+                width: 22px;
+                height: 22px;
+                font-size: .75rem;
+                align-content: center;
+                text-align: center;
+            }
+        }
+
+    }
 }
 .user-data{
     display:none;
@@ -82,13 +104,18 @@ ul.nav-list{
     width: 60px;
     height: 60px;
 }
+.cart-container{
+    display: flex;
+    align-items: center;
+}
 .user-info .user-cart{
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     &:hover{
         color:var(--secondary-color);
         cursor: pointer;
     }
 }
+
 /** ========== END HEADER ==========  */
 
 /*? ========== BURGER MENU ========== */
@@ -184,6 +211,7 @@ label.burger-menu{
     }
     .user-info{
         margin-left: auto; 
+        gap: 1rem;
         .user-data{
             display: flex;
             align-items: center;

@@ -1,9 +1,10 @@
 /* import { NavLink } from "react-router-dom"; */
 import './Home.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faEarthAmericas, faHeadset } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 import ProductList from '../../components/product-list/ProductList';
+import { faCreditCardAlt } from '@fortawesome/free-regular-svg-icons';
 
 export default function Home(){
 
@@ -30,23 +31,26 @@ export default function Home(){
 
                 </div>
             </section>
-            <h1 className="cursos-asincronicos" id="cursos-asincronicos" ref={coursesSection}>Cursos asincrónicos</h1>
+            <div className="cursos-asincronicos" id="cursos-asincronicos" ref={coursesSection}>
+                <ProductList/>
+            </div>
+            <section className="our-services">
+                <div className="payment">
+                    <FontAwesomeIcon icon={faCreditCardAlt} />
+                    <h2>Todos los medios de pago</h2>
+                </div>
+                <div className="support">
+                <FontAwesomeIcon icon={faHeadset} />
+                    <h2>Soporte 24/7</h2>
+                </div>
+                <div className="locations">
+                    <FontAwesomeIcon icon={faEarthAmericas} />
+                    <h2>De Buenos Aires al  Mundo </h2>
+                </div>
+            </section>
+
+
             
-
-            <ProductList/>
-
-            {/* <div className="card">
-                Producto 1
-                <NavLink to="product-detail/1"> Ver más </NavLink>
-            </div>
-            <div className="card">
-                Producto 2
-                <NavLink to="product-detail/2" > Ver más </NavLink>
-            </div>
-            <div className="card">
-                Producto 3
-                <NavLink to="product-detail/3" > Ver más </NavLink>
-            </div> */}
         </>
     )
 }

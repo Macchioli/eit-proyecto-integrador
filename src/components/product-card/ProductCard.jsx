@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import removeDecimals from '../../services/utils/FormatNumber'
 import './ProductCard.css'
 import { faCartShopping, faCircleInfo, faEye, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { useOrder } from '../../context/OrderContext';
 /* import { useOrder } from '../../context/OrderContext'
  */
 
@@ -11,8 +12,8 @@ export default function ProductCard({product}){
     /* const { addOrderItem } = useOrder();
     addOrderItem();  *//* Prueba de contexto en este componente */
 
-/*     const {addOrderItem} = useOrder();
- */
+    const {addOrderItem} = useOrder();
+
     return(
         
         
@@ -21,10 +22,6 @@ export default function ProductCard({product}){
                         <div className="card-header">
                             {/* <!-- Imagen e iconos --> */}
                             <img className="card-img card-image-1" src={product.image} alt={product.name} />
-                            <div className="actions">
-                                <FontAwesomeIcon icon={faHeart} />
-                                <FontAwesomeIcon icon={faEye} />
-                            </div>
                         </div>
                         <div className="card-main">
                             {/* <!-- Descripcion del producto/servicio --> */}

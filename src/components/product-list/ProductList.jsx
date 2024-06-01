@@ -32,7 +32,7 @@ export default function ProductList(){
 
     return (
         <>
-            <h2>Lista de productos</h2>
+            <h1 className="list-title">🚀 Cursos & Webinars</h1>
 
             <div className="card-container">
                 {
