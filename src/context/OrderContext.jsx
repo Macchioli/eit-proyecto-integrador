@@ -71,10 +71,7 @@ export const OrderProvider = ({children}) =>{ /* Componente que me brinda cierto
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: false,
-            // didOpen: (toast) => {
-            //   toast.onmouseenter = Swal.stopTimer;
-            //   toast.onmouseleave = Swal.resumeTimer;
-            // }
+
           });
           Toast.fire({
             customClass:{
@@ -89,24 +86,8 @@ export const OrderProvider = ({children}) =>{ /* Componente que me brinda cierto
 
     }
 
-    //Function remover elemento de la carta
-
-    //CalcularTotal
-
-    //Toggle sidebar
-
-
-    /* Funcion para manejar los cambios de cantidad */
-
     function handleChanqeQuantity(id, quantity){
         
-
-        // Buscar el producto por su id
-
-        // Cambiar la cantidad
-        
-        //Actualizar mi estado orders
-
         const updatedOrder = order.map(item => {
 
             if(item.id === id) {
@@ -119,11 +100,23 @@ export const OrderProvider = ({children}) =>{ /* Componente que me brinda cierto
 
         setOrder(updatedOrder);
         localStorage.setItem("order", JSON.stringify(updatedOrder))
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false,
+          });
+          Toast.fire({
+            customClass:{
+                container: 'modal-confirm'
+            },
+            icon: "success",
+            title: "Curso añadido a tu orden"
+          });
 
 
     }
-
-    /* Función para quitar elemento de mi order */
 
     function removeItem(id){
 

@@ -1,23 +1,11 @@
-/** FORM SECTION */
-.form-container{
-    background-color: #2b285b;
-    padding:1rem;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-}
-
 .form-register-container{
-    background-color: #2b285b;
+    background-color: var(--primary-color);
     padding:1rem;
     margin: 1rem;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-}
-.form-container h2{
-    margin-bottom: 1rem;
-    color: var(--text-color);
 }
 
 .input-group{
@@ -28,7 +16,12 @@
     font-size: 14px;
 
     span{
-        color: white;
+        color: crimson;
+    }
+    
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(50%); /* Cambia los colores del icono */
+        cursor: pointer;
     }
 }
 
@@ -47,10 +40,9 @@
     font-family: 'Poppins', sans-serif;
     color: var(--primary-color);
     background-color: white;
-
 }
 
-.form-container button, .form-register-container button{
+.form-register-container button{
     padding: .5rem 1rem;
     color: var(--primary-color);
     background-color: var(--text-color);
@@ -63,26 +55,6 @@
 .form-container button:hover, .form-register-container button:hover{
     cursor: pointer;
     background-color: var(--secondary-color);
-    color: var(--text-color);
-}
-.main-contact{
-    padding: 4rem 0; 
-}
-.contact-map-wrapper{
-    padding: 1rem;
-    background-color: var(--secondary-color);
-    display: flex;
-    flex-direction: column;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-.contact-map-wrapper iframe{
-    height: 400px;
-}
-.contact-map-wrapper h2{
-    margin-bottom: 1rem;
-    text-align: center;
-    text-transform: uppercase;
     color: var(--text-color);
 }
 

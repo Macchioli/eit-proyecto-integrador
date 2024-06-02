@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import './RegisterForm.css'
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const URL = 'https://6622ed703e17a3ac846e40e5.mockapi.io/api'
 
@@ -11,23 +12,47 @@ export default function RegisterForm(){
 
 
     function onSubmit(data){
-        console.log(data)
+        
+        if(data.password !== data.repeatPassword){
+            Swal.fire({
+                title: "¡Lo sentimos!",
+                text: "Las contraseñas ingresadas no coinciden",
+                icon: "error"
+            })
+            reset();
+            return
+        }
 
-        data.password !== data.repeatPassword && alert('Las contraseñas no coinciden')
+        const usr = {
+            name: data.name,
+            lastname: data.lastname,
+            email: data.email,
+            password: data.password,
+            bornDate: new Date(data.bornDate).getTime(),
+            location: data.location
+        }
 
-        data.bornDate = new Date(data.bornDate).getTime();
-
-        registerUser(data);
+        registerUser(usr);
     }
 
     async function registerUser(user){
         try{
-            const newUser = await axios.post(`${URL}/users`, user)
+            await axios.post(`${URL}/users`, user)
+            Swal.fire({
+                title: "¡Bienvenido/a!",
+                text: "Usuario registrado correctamente",
+                icon: "success",
+                confirmButtonColor: '#2b285b'
+              });
             reset();
-            console.log(newUser)
+            
         }
         catch(error){
-            console.log(error)
+            Swal.fire({
+                title: "¡Lo sentimos!",
+                text: "No se pudo procesar el registro.",
+                icon: "error"
+            })
         }
     }
 
@@ -41,7 +66,7 @@ export default function RegisterForm(){
                     <input type="text" {...register("name",{
                             required: true,
                             minLength: 3,
-                            maxLength: 15})} name="name" id="name" placeholder="Ingrese su nombre" />
+                            maxLength: 15,})} name="name" id="name" placeholder='Ingrese su nombre'/>
                     {errors.name?.type === "required" && (
                     <span className="input-error">El campo es requerido</span>
                     )}
@@ -72,7 +97,10 @@ export default function RegisterForm(){
                 </div>
                 <div className="input-group">
                     <label htmlFor="email">E-mail</label>
-                    <input type="email" {...register("email")} name="email" id="email" placeholder="Ingrese su email" />
+                    <input type="email" {...register("email", {
+                        required:true,
+                        pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
+                    })} name="email" id="email" placeholder="Ingrese su email" />
                 </div>
                 <div className="input-group">
                     <label htmlFor="password">Contraseña</label>
