@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import removeDecimals from '../../services/utils/FormatNumber'
 import './ProductCard.css'
-import { faCartShopping, faCircleInfo, faEye, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faCartShopping, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { useOrder } from '../../context/OrderContext';
 /* import { useOrder } from '../../context/OrderContext'
  */

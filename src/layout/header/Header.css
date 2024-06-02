@@ -269,15 +269,6 @@ label.burger-menu{
         background-color: var(--secondary-color); 
         transition: width 0.3s ease-in-out; 
     }
-    .form-container{
-        border-top-right-radius: 0;
-        border-bottom-left-radius: 10px;
-        border-top-left-radius: 10px;
-    }
-    .register-container{
-        width: 100vh;
-        max-width: 1900px;
-    }
     .contact-map-wrapper{
         border-top-right-radius: 10px;
         border-bottom-left-radius:0;

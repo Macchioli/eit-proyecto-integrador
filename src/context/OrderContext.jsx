@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import './OrderContext.css'
 
 const OrderContext = createContext() /* Me provee react para crear el contexto */
 
@@ -63,6 +64,27 @@ export const OrderProvider = ({children}) =>{ /* Componente que me brinda cierto
 
         setOrder([...order, producto]) /* Un array nuevo con todo lo que esta en order mas el producto que recibo */
         localStorage.setItem("order", JSON.stringify([...order, producto]))
+        
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: false,
+            // didOpen: (toast) => {
+            //   toast.onmouseenter = Swal.stopTimer;
+            //   toast.onmouseleave = Swal.resumeTimer;
+            // }
+          });
+          Toast.fire({
+            customClass:{
+                container: 'modal-confirm'
+            },
+            icon: "success",
+            title: "Curso añadido a tu orden"
+          });
+
+
         }        
 
     }
