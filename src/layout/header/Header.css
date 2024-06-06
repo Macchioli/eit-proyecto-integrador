@@ -192,10 +192,6 @@ label.burger-menu{
 
 /* ? MEDIAS QUERIES */
 @media screen and (width > 640px){
-    .table-container{
-        max-width: 640px;
-        margin: 3rem 0;
-    }
     .course-picture img{
         width: 60vh;
     }
@@ -300,12 +296,6 @@ label.burger-menu{
     .about-course{
         padding: 1rem;
         margin-top: 4rem;
-    }
-    .table-container{
-        width:100%;
-        overflow-x:auto;
-        max-width: 1080px;
-        padding: 4rem 0;
     }
 
     .main-contact{

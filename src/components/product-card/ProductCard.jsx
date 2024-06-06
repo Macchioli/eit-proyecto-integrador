@@ -3,6 +3,7 @@ import removeDecimals from '../../services/utils/FormatNumber'
 import './ProductCard.css'
 import { faCartShopping, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { useOrder } from '../../context/OrderContext';
+import { formatTimestampToUserDate } from '../../services/utils/FormatDate';
 /* import { useOrder } from '../../context/OrderContext'
  */
 
@@ -27,7 +28,7 @@ export default function ProductCard({product}){
                             {/* <!-- Descripcion del producto/servicio --> */}
                             <div className="card-top">
                                 <h4 className="card-category">{product.name}</h4>
-                                <span className="card-date">01/03/2024</span>
+                                <span className="card-date">{formatTimestampToUserDate(product.createdAt)}</span>
                             </div>
                             <h3 className="card-title">{product.name}</h3>
                             <p className="card-description">{product.description} </p>
