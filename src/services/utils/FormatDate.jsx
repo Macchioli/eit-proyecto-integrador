@@ -6,15 +6,22 @@ export function formatTimestampToInputDate(timestamp){
         day: "2-digit"
     }); /* Seteo en en-CA para el formato yyyy-mm-dd necesario para lo que requiere recibir el react form */
 
+    const offset = new Date().getTimezoneOffset() * 60 * 1000;
+    timestamp += offset;
+
     return collator.format(timestamp)
 }
 
 export function formatTimestampToUserDate(timestamp){
-    const collator = new Intl.DateTimeFormat("es-AR", {
+    const dateFormat = new Intl.DateTimeFormat("es-AR", {
         year:"numeric",
         month: "2-digit",
         day: "2-digit"
     })
 
-    return collator.format(timestamp)
+    const offset = new Date().getTimezoneOffset() * 60 * 1000;
+    timestamp += offset;
+    const date = dateFormat.format(timestamp)
+
+    return date
 }

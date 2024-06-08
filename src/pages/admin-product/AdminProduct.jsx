@@ -224,7 +224,7 @@ async function deleteProduct(id){
                             </div>
                             <div className="input-group">
                                 <label htmlFor="description" className="form-label">Descripción</label>
-                                <textarea className="form-control text-area" cols={50} rows={4} {...register("description", {required: true, minLength: 3, maxLength: 500})}/>
+                                <textarea className="form-control text-area" cols={50} rows={4} {...register("description", {required: true, minLength: 3, maxLength: 3000})}/>
                                 {errors.description?.type === "required" && (
                                 <span className="input-error">El campo es requerido</span>
                                 )}
@@ -239,12 +239,12 @@ async function deleteProduct(id){
                             <div className="input-group">
                                 <label htmlFor="category" className="form-label">Categoría</label>
                                 <select className="form-control" {...register("category", {required: faTruckMedical})}>
-                                    <option value="programacion"> Programación </option>
-                                    <option value="datos"> Análisis de datos </option>
-                                    <option value="marketing"> Marketing digital </option>
-                                    <option value="diseno"> Diseño gráfico </option>
-                                    <option value="educacion"> Educación </option>
-                                    <option value="ingles"> Inglés </option>
+                                    <option value="Programación"> Programación </option>
+                                    <option value="Análisis de datos"> Análisis de datos </option>
+                                    <option value="Markting digital"> Marketing digital </option>
+                                    <option value="Diseño gráfico"> Diseño gráfico </option>
+                                    <option value="Educación"> Educación </option>
+                                    <option value="Inglés"> Inglés </option>
                                 </select>
                                 {errors.category?.type === "required" && (
                                 <span className="input-error">El campo es requerido</span>

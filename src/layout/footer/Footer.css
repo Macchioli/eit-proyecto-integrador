@@ -14,7 +14,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    opacity: .75;
 }
 .footer-social-link{
     color:white;
@@ -39,7 +38,6 @@
 .footer-logo{
    display:block;
    margin:auto;
-   opacity: .75;
 }
 
 .footer-contact{
@@ -50,9 +48,7 @@
     align-items: center;
     
 }
-.footer-contact .newsletter{
-    opacity: .75;
-}
+
 .footer-contact .suscribe{
     display: flex;
     gap: .25rem;

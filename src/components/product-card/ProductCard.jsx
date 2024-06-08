@@ -4,6 +4,7 @@ import './ProductCard.css'
 import { faCartShopping, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { useOrder } from '../../context/OrderContext';
 import { formatTimestampToUserDate } from '../../services/utils/FormatDate';
+import { Link } from 'react-router-dom';
 /* import { useOrder } from '../../context/OrderContext'
  */
 
@@ -34,10 +35,10 @@ export default function ProductCard({product}){
                             <p className="card-description">{product.description} </p>
                             <div className="card-price">
                                 <span className="price">$
-                                    {removeDecimals(product.price * 0.9)}
+                                    {removeDecimals(product.price)}
                                 </span>
                                 <span className="normal-price"><small>$</small>
-                                    {removeDecimals(product.price)}
+                                    {removeDecimals(product.price * 1.1)}
                                 </span>
                             </div>
                         </div>
@@ -45,11 +46,11 @@ export default function ProductCard({product}){
                             <button className="add-to-cart" onClick={() => addOrderItem(product)}>
                                 Añadir <FontAwesomeIcon icon={faCartShopping} />
                             </button>
-                            <a href="/pages/product-detail.html">
+                            <Link to={`/product-detail/${product.id}`}>
                                 <button className="more-info">
                                     Más info <FontAwesomeIcon icon={faCircleInfo} />
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                     </article>
                 </div>

@@ -191,11 +191,6 @@ label.burger-menu{
 
 
 /* ? MEDIAS QUERIES */
-@media screen and (width > 640px){
-    .course-picture img{
-        width: 60vh;
-    }
-    }
     
 @media screen and (width > 1024px){
     .main-header{
@@ -281,22 +276,7 @@ label.burger-menu{
     .student-img{
         margin-top: 0;
     }
-    .course-detail{
-        flex-direction: row;
-        align-items: start;
-    }
-    .course-picture img{
-        padding: 0 1rem;
-        margin: 4rem auto;
-        width: 60vh;
-    }
-    .course-actions{
-        text-align: right;
-    }
-    .about-course{
-        padding: 1rem;
-        margin-top: 4rem;
-    }
+    
 
     .main-contact{
         display: flex;
