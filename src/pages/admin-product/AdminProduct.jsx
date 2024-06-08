@@ -8,6 +8,7 @@ import {useForm } from "react-hook-form"
 
 import { formatTimestampToInputDate, formatTimestampToUserDate } from "../../services/utils/FormatDate";
 import Modal from "../../layout/modal/Modal";
+import Swal from "sweetalert2";
 
 const URL = 'https://6622ed703e17a3ac846e40e5.mockapi.io/api';
 
@@ -76,11 +77,21 @@ function onSubmit(data){
 async function createProduct(product){
     try {
         const newProduct = await axios.post(`${URL}/products`, product)
-        console.log(newProduct)
         getProducts();
+        Swal.fire({
+            icon: "success",
+            title: "¡Listo!",
+            text: `${newProduct.data.name} agregado correctamente 🚀`,
+            confirmButtonColor: "#2b285b"
+        });
 
     } catch (error) {
-        console.log(error)
+        Swal.fire({
+            icon: "error",
+            title: "Algo salió mal!",
+            text: "No se pudo agregar el curso/webinar",
+            confirmButtonColor: "#2b285b"
+        });
     }
 }
 
@@ -88,25 +99,63 @@ async function updateProduct(product){
     try {
         await axios.put(`${URL}/products/${product.id}`, product)
 
-        // Swal.fire de exito
         getProducts();
         setIsEditing(false);
         reset();
+        Swal.fire({
+            icon: "success",
+            title: "¡Listo!",
+            text: `Curso ${product.name} actualizado correctamente`,
+            confirmButtonColor: "#2b285b"
+        });
 
-    } catch (error) {
-        console.log(error)
+    } catch (error){
+        Swal.fire({
+            icon: "error",
+            title: "Algo salió mal!",
+            text: "No se pudo actualizar el registro 😪"
+        });
     }
 }
 
 async function deleteProduct(id){
     try {
-        await axios.delete(`${URL}/products/${id}`)
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Estás por eliminar un usuario",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#2b285b",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+          })
+          .then(async (result) => {
+                if (result.isConfirmed) {
+                    await axios.delete(`${URL}/products/${id}`)
+                    getProducts();
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Listo!",
+                        text: "Usuario eliminado correctamente ♻"
+                    });
+                }
+          })
+          .catch(() => {
+            Swal.fire({
+                icon: "error",
+                title: "Algo salió mal!",
+                text: "No se pudo eliminar el usuario 😪"
+            });
+          })
 
-        getProducts();
-
-        /* Swal. fire ... */
     } catch (error) {
-        console.log(error)
+        Swal.fire({
+            icon: "error",
+            title: "Algo salió mal!",
+            text: "No se pudo eliminar el usuario 😪"
+        });
     }
 }
 
@@ -203,7 +252,7 @@ async function deleteProduct(id){
                             </div>
                             <div className="input-group">
                             <label htmlFor="price" className="form-label">Precio</label>
-                            <input type="number" className="form-control" {...register("price")}/>
+                            <input type="number" className="form-control" {...register("price")} min={1}/>
                             </div>
                             <div className="input-group">
                                 <label htmlFor="createdAt" className="form-label">Fecha</label>
