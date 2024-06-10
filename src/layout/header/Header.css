@@ -260,11 +260,6 @@ label.burger-menu{
         background-color: var(--secondary-color); 
         transition: width 0.3s ease-in-out; 
     }
-    .contact-map-wrapper{
-        border-top-right-radius: 10px;
-        border-bottom-left-radius:0;
-        border-top-left-radius: 0;
-    }
     .our-services{
         flex-direction: row;
     }
@@ -275,21 +270,6 @@ label.burger-menu{
     }
     .student-img{
         margin-top: 0;
-    }
-    
-
-    .main-contact{
-        display: flex;
-        justify-content: center;
-    }
-    .main-container:has(.main-contact){
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin:0 auto;
-    }
-    .contact-map-wrapper iframe{
-        flex:1;
     }
 }
 /* ? END MEDIAS QUERIES */

@@ -14,9 +14,6 @@ export default function Modal({title, handleClose, isOpen, children}){
                 <div className="modal-body">
                     {children}
                 </div>
-                {/* <div className="modal-footer">
-                    <button className="btn" onClick={handleClose}>Cerrar</button>
-                </div> */}
             </div>
         </div>
     )

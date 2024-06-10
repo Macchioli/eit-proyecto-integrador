@@ -27,7 +27,7 @@ export default function OrderSidebar(){
 										value={product.quantity} 
 										onChange={(evt) => handleChanqeQuantity(product.id, evt.target.value)}
 										min={1}
-                                        max={5}
+                                        max={100}
                                         />
 									</div>
 									<div className="order-subtotal">

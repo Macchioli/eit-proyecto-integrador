@@ -112,7 +112,7 @@ export const OrderProvider = ({children}) =>{ /* Componente que me brinda cierto
                 container: 'modal-confirm'
             },
             icon: "success",
-            title: "Curso añadido a tu orden"
+            title: "Se actualizó tu orden"
           });
 
 

@@ -60,12 +60,14 @@
         height: 2rem;
         border: var(--secondary-color) 1px solid;
         border-radius: 6px;
+        background-color: white;
     }
     .btn-newsletter{
         border: none;
         padding: .5rem 1rem;
         border-radius: 6px;
-        color: var(--primary-color);
+        color: var(--color-text);
+        background-color: var(--secondary-color);
         
         &:hover{
             background-color: var(--secondary-color);

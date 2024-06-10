@@ -37,7 +37,7 @@
 
             .order-item {
                 display: grid;
-                grid-template-columns: 36px 1fr 60px 60px 16px;
+                grid-template-columns: 36px 1fr 60px 80px 16px;
                 align-items: center;
                 font-size: .75rem;
                 font-family: var(--secondary-font);
@@ -62,7 +62,7 @@
                 .order-price, .order-subtotal{
                     font-size: 1rem;
                     color: #333;
-                    width: 60px;
+                    width: 80px;
                     display: flex;
                     align-items: center;
                 }
