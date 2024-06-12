@@ -1,5 +1,5 @@
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
-import { faTrash, faTruckMedical } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faTrash, faTruckMedical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from 'react'
 import './AdminProduct.css'
@@ -18,6 +18,7 @@ const [cursos, setCursos] = useState([])
 const{register, handleSubmit, setValue , reset, formState: {errors}} = useForm()
 const [isOpen, setIsOpen] = useState(false) /* Seteo un estado para el Modal */
 const[isEditing, setIsEditing] = useState(false);
+const [loading, setLoading] = useState(true)
 
     function handleClose(){
         setIsOpen(false)
@@ -33,12 +34,20 @@ useEffect(() =>{
     getProducts();
 }, [])
 
+if(loading){
+    return (
+        <div className="loader-container">
+            <FontAwesomeIcon className='loader' size='2xl' icon={faSpinner} spin />
+        </div>
+    )
+}
+
 async function getProducts(){
     try {
         const response = await axios.get(`${URL}/products`)
         const cursos = response.data;
         setCursos(cursos);
-
+        setLoading(false)
     } catch (error) {
         console.log(error)
     }
@@ -122,7 +131,7 @@ async function deleteProduct(id){
     try {
         Swal.fire({
             title: "¿Estás seguro?",
-            text: "Estás por eliminar un usuario",
+            text: "Estás por eliminar un curso/webinar",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#2b285b",
@@ -138,7 +147,7 @@ async function deleteProduct(id){
                     Swal.fire({
                         icon: "success",
                         title: "¡Listo!",
-                        text: "Usuario eliminado correctamente ♻"
+                        text: "Curso/webinar eliminado correctamente ♻"
                     });
                 }
           })

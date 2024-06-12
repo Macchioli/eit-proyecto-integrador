@@ -13,7 +13,8 @@
     padding: 2rem;
 }
 .about-course p{
-    padding:.25rem
+    padding:.25rem;
+    white-space: pre-wrap;
 }
 .course-actions{
     text-align: center;
@@ -35,6 +36,18 @@
     text-align: left;
     color: var(--secondary-color);
 }
+.loader-container{
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loader{
+    color: var(--primary-color);
+    opacity: .5;
+    font-size: 75px;
+}
 
 @media screen and (width > 1024px){
     .course-detail-container{
@@ -45,7 +58,6 @@
         flex-direction: row;
         align-items: start;
         justify-content: center;
-        max-width: 1720px;
         
     }
     .course-picture img{
@@ -59,5 +71,6 @@
     .about-course{
         padding: 1rem;
         margin-top: 4rem;
+        max-width: 1024px;
     }
 }

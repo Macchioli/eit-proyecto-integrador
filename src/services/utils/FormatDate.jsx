@@ -13,6 +13,7 @@ export function formatTimestampToInputDate(timestamp){
 }
 
 export function formatTimestampToUserDate(timestamp){
+    
     const dateFormat = new Intl.DateTimeFormat("es-AR", {
         year:"numeric",
         month: "2-digit",

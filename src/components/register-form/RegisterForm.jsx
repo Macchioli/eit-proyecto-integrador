@@ -168,10 +168,7 @@ export default function RegisterForm(){
                       <span className="input-error">El campo es requerido</span>
                       )}
                 </div>
-                {/* <div className="input-group">
-                    <label htmlFor="observation"> Observaciones </label>
-                    <textarea name="observation" id="observation" cols="30" rows="10" minLength="10" maxLength="1000" style="resize:none"></textarea>
-                </div> */}
+                
                 <button type="submit" className="form-button">Registrarme</button>
             </form>
         </div>

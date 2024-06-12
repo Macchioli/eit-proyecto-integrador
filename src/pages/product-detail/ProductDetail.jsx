@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useOrder } from '../../context/OrderContext';
 
 const URL = 'https://6622ed703e17a3ac846e40e5.mockapi.io/api'
@@ -15,31 +15,41 @@ export default function ProductDetail(){
 const [product, setProduct] = useState()
 const {id} = useParams();    
 const {addOrderItem} = useOrder();
+const [loading, setLoading] = useState(true)
 
 useEffect(() => {
     getProductById(id);
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
+if(loading){
+    return (
+        <div className="loader-container">
+            <div>
+                <FontAwesomeIcon className='loader' size='2xl' icon={faSpinner} spin />
+            </div>
+        </div>
+    )
+}
 
 async function getProductById(id){
     try {
+        
         const response = await axios.get(`${URL}/products/${id}`);
-        console.log(response.data)
-
-        // response.data.description = response.data.description.replace(/\./g, '.<br><br>'); //TODO: Preguntar
-
+        
         setProduct(response.data)
+        setLoading(false);
 
     } catch (error) {
         Swal.fire({
             icon: "error",
             title: "Algo salió mal!",
-            text: "No se pudo agregar el curso/webinar",
+            text: "No se pudo cargar el curso/webinar",
             confirmButtonColor: "#2b285b"
         });
     }
 }
-    return (
+
+return (
         <div className="course-detail-container">
             <div className="course-detail">
                 <div className="course-picture">

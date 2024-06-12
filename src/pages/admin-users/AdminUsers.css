@@ -1,4 +1,4 @@
-.admin-courses-container{
+.admin-users-container{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -9,7 +9,7 @@
     .add-btn-container{
         display: block;
         text-align: left;
-        padding-left: 2rem;
+        padding-left: 5rem;
         padding-top: 2rem;
         padding-bottom:.5rem;
         width: 100%;
@@ -35,29 +35,29 @@
     padding: 0 2rem 2rem 2rem;
 
 }
-.admin-courses-table{
+.admin-users-table{
     width:100%;
     border-collapse: collapse;
     font-family: var(--secondary-font);
     max-width: 1024px;
     overflow-x: auto;
 }
-.admin-courses-table tbody tr:nth-child(odd){ 
+.admin-users-table tbody tr:nth-child(odd){ 
     background-color: rgba(43, 40, 91,.3);
 }
 
-.admin-courses-table th, .admin-courses-table td{
+.admin-users-table th, .admin-users-table td{
     border: 2px solid #2b285b;
 }   
 
-.admin-courses-table th{
+.admin-users-table th{
     padding: 10px;
     background-color: var(--primary-color);
     color: var(--text-color);
     font-weight: normal;
 }
 
-.admin-courses-table td{
+.admin-users-table td{
     font-size: .75rem;
     padding: 8px;
 }

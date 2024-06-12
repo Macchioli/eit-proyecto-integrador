@@ -28,7 +28,7 @@ export default function ProductCard({product}){
                         <div className="card-main">
                             {/* <!-- Descripcion del producto/servicio --> */}
                             <div className="card-top">
-                                <h4 className="card-category">{product.name}</h4>
+                                <h4 className="card-category">{product.category}</h4>
                                 <span className="card-date">{formatTimestampToUserDate(product.createdAt)}</span>
                             </div>
                             <h3 className="card-title">{product.name}</h3>
