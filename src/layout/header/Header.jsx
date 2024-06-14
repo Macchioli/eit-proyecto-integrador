@@ -37,9 +37,9 @@ export default function Header(){
                         <li className="nav-item">
                             <NavLink to='/register' className='nav-link'><span> Registro </span></NavLink>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <NavLink to='/login' className='nav-link'><span>Login</span></NavLink>
-                        </li>
+                        </li> */}
                         {isAdmin &&(
                             <li className="nav-item">
                                 <NavLink to='/admin-product' className='nav-link'>
