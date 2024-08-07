@@ -3,7 +3,7 @@ import ProductCard from "../product-card/ProductCard";
 import axios from "axios";
 import './ProductList.css'
 
-const URL = 'https://6622ed703e17a3ac846e40e5.mockapi.io/api';
+const URL = import.meta.env.VITE_SERVER_URL;
 
 export default function ProductList(){
 
@@ -21,8 +21,9 @@ export default function ProductList(){
 
         try{
             const responseAwait = await axios.get(`${URL}/products`)
-            const productsAPI = responseAwait.data;
-            setProducts(productsAPI);
+            const {products} = responseAwait.data;
+            console.log(products)
+            setProducts(products);
     
         }catch(error){
             console.log(error)
@@ -36,7 +37,7 @@ export default function ProductList(){
 
             <div className="card-container">
                 {
-                    products.map(prod => <ProductCard product={prod} key={prod.id} /> )
+                    products.map(prod =>  <ProductCard product={prod} key={prod._id} /> )
                 }
             </div>
 

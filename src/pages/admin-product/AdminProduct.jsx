@@ -3,22 +3,26 @@ import { faSpinner, faTrash, faTruckMedical } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from 'react'
 import './AdminProduct.css'
-import axios from 'axios';
 import {useForm } from "react-hook-form"
 
 import { formatTimestampToInputDate, formatTimestampToUserDate } from "../../services/utils/FormatDate";
 import Modal from "../../layout/modal/Modal";
 import Swal from "sweetalert2";
+import useApi from "../../services/interceptor/Interceptor";
 
-const URL = 'https://6622ed703e17a3ac846e40e5.mockapi.io/api';
+
 
 export default function AdminProduct(){
 
+const api = useApi();
 const [cursos, setCursos] = useState([])
 const{register, handleSubmit, setValue , reset, formState: {errors}} = useForm()
 const [isOpen, setIsOpen] = useState(false) /* Seteo un estado para el Modal */
 const[isEditing, setIsEditing] = useState(false);
-const [loading, setLoading] = useState(true)
+const [loading, setLoading] = useState(true);
+
+const [categories, setCategories] = useState([])
+
 
     function handleClose(){
         setIsOpen(false)
@@ -32,6 +36,7 @@ const [loading, setLoading] = useState(true)
 
 useEffect(() =>{
     getProducts();
+    getCategories()
 }, [])
 
 if(loading){
@@ -44,9 +49,9 @@ if(loading){
 
 async function getProducts(){
     try {
-        const response = await axios.get(`${URL}/products`)
-        const cursos = response.data;
-        setCursos(cursos);
+        const response = await api.get(`/products`)
+        const {products} = response.data;
+        setCursos(products);
         setLoading(false)
     } catch (error) {
         console.log(error)
@@ -55,13 +60,13 @@ async function getProducts(){
 
 function handleEditProduct(producto){
         setIsEditing(true)
-
+        console.log("Los datos con los que relleno edit:", producto)
         // Setear formulario con los datos de mi producto
-        setValue("id", producto.id);
+        setValue("id", producto._id);
         setValue("name", producto.name)
         setValue("price", producto.price)
-        setValue("image", producto.image)
-        setValue("category", producto.category)
+        // setValue("image", producto.image)
+        setValue("category", producto.category._id)
         setValue("description", producto.description)
         setValue("createdAt", formatTimestampToInputDate(producto.createdAt))
 
@@ -69,23 +74,44 @@ function handleEditProduct(producto){
 }
 
 function onSubmit(data){
-    console.log(data)
-    reset();
-    handleClose();
+    console.log("La data es:",data)
+    // reset();
+    // handleClose();
 
-    data.createdAt = new Date(data.createdAt).getTime();
-    data.price = +data.price;
+    // data.createdAt = new Date(data.createdAt).getTime();
+    // data.price = +data.price;
 
-    if(data.id){
-        updateProduct(data)
-    }else{
-        createProduct(data)
-    }
+    // if(data.id){
+    //     updateProduct(data)
+    // }else{
+    //     createProduct(data)
+    // }
+
+    const formData = new FormData(); /* Para que JS pueda enviar el archivo como tal debo partir desde FormData */
+
+        formData.append("id", data.id)
+        formData.append("name", data.name)
+        formData.append("price", +data.price)
+        formData.append("description", data.description)
+        formData.append("image", data.image.length ? data.image[0] : undefined)
+        formData.append("createdAt", new Date(data.createdAt).getTime())
+        formData.append("category", data.category)  /* Doy el valor correspondiente de forma manual */
+
+        console.log("Esta es la datita", data)
+        reset();
+        handleClose();
+        if(data.id){
+            updateProduct(formData);
+        }else{
+            createProduct(formData)
+        } /* Entro al if si tiene un id ya que estaría editando */
+
 }
 
 async function createProduct(product){
     try {
-        const newProduct = await axios.post(`${URL}/products`, product)
+        console.log("El producto recibido en create product:" , product)
+        const newProduct = await api.post(`/products`, product)
         getProducts();
         Swal.fire({
             icon: "success",
@@ -104,9 +130,12 @@ async function createProduct(product){
     }
 }
 
-async function updateProduct(product){
+async function updateProduct(productFormData){
+    
     try {
-        await axios.put(`${URL}/products/${product.id}`, product)
+        const id = productFormData.get("id")
+        console.log("El id es:", id)
+        await api.put(`/products/${id}`, productFormData)
 
         getProducts();
         setIsEditing(false);
@@ -114,7 +143,7 @@ async function updateProduct(product){
         Swal.fire({
             icon: "success",
             title: "¡Listo!",
-            text: `Curso ${product.name} actualizado correctamente`,
+            text: `Curso ${productFormData.name} actualizado correctamente`,
             confirmButtonColor: "#2b285b"
         });
 
@@ -142,7 +171,7 @@ async function deleteProduct(id){
           })
           .then(async (result) => {
                 if (result.isConfirmed) {
-                    await axios.delete(`${URL}/products/${id}`)
+                    await api.delete(`/products/${id}`)
                     getProducts();
                     Swal.fire({
                         icon: "success",
@@ -168,6 +197,21 @@ async function deleteProduct(id){
     }
 }
 
+async function getCategories(){
+    try {
+        
+        const response = await api.get(`/categories`)
+
+        console.log(response)
+
+        const categoriesDB = response.data.categories;
+
+        setCategories(categoriesDB)
+
+    } catch (error) {
+        console.log("Error al obtener categorias:", error)
+    }
+}
 
     return (
         <>
@@ -189,15 +233,15 @@ async function deleteProduct(id){
                         </thead>
                         <tbody>
                             {cursos.map((curso) => (
-                                <tr key={curso.id}>
-                                    <td className="td-image"><img className='course-image' src={curso.image} alt="Curso o webinar"/></td>
+                                <tr key={curso._id}>
+                                    <td className="td-image"><img className='course-image' src={`http://localhost:3000/images/products/${curso.image}`} alt="Curso o webinar"/></td>
                                     <td className="td-name">{curso.name}</td>
                                     <td className="td-description">{curso.description}</td>
                                     <td className="td-date">{formatTimestampToUserDate(curso.createdAt) }</td>
                                     <td className="td-price">${curso.price}</td>
                                     <td className="td-actions">
                                         <button className="td-button-edit" onClick={() => handleEditProduct(curso)}><FontAwesomeIcon icon={faEdit}/></button>
-                                        <button className="td-button-delete" onClick={()=>{deleteProduct(curso.id)}}><FontAwesomeIcon icon={faTrash}/></button>
+                                        <button className="td-button-delete" onClick={()=>{deleteProduct(curso._id)}}><FontAwesomeIcon icon={faTrash}/></button>
                                     </td>
                                 </tr>
 
@@ -248,12 +292,12 @@ async function deleteProduct(id){
                             <div className="input-group">
                                 <label htmlFor="category" className="form-label">Categoría</label>
                                 <select className="form-control" {...register("category", {required: faTruckMedical})}>
-                                    <option value="Programación"> Programación </option>
-                                    <option value="Análisis de datos"> Análisis de datos </option>
-                                    <option value="Markting digital"> Marketing digital </option>
-                                    <option value="Diseño gráfico"> Diseño gráfico </option>
-                                    <option value="Educación"> Educación </option>
-                                    <option value="Inglés"> Inglés </option>
+                                    {/* Obtenidas las categorias pinto con un map las diferentes opciones */}
+                                    {
+                                        categories.map(category => (
+                                            <option value={category._id} key={category._id}>{category.viewValue}</option>
+                                        ))
+                                    }
                                 </select>
                                 {errors.category?.type === "required" && (
                                 <span className="input-error">El campo es requerido</span>
@@ -268,8 +312,8 @@ async function deleteProduct(id){
                                 <input type="date" className="form-control" {...register("createdAt")}/>
                             </div>
                             <div className="input-group">
-                                <label htmlFor="image" className="form-label">Imagen (URL)</label>
-                                <input type="url" className="form-control" {...register("image")}/>
+                                <label htmlFor="image" className="form-label">Imagen</label>
+                                <input type="file" accept="image/*" {...register("image")} />
                             </div>
                             <div className="btn-submit-container">
                                 <button className="cancel-btn" onClick={handleClose}>Cerrar</button>

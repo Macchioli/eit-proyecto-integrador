@@ -5,11 +5,11 @@ import userImage from '/src/assets/images/user-img.avif'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { useOrder } from '../../context/OrderContext';
+import { useUser } from '../../context/UserContext';
 
 export default function Header(){
 
-    const isAdmin = true;
-
+    const{user, logout} = useUser();
     const {toggleSidebarOrder, count} = useOrder();
 
     return (
@@ -40,14 +40,14 @@ export default function Header(){
                         {/* <li className="nav-item">
                             <NavLink to='/login' className='nav-link'><span>Login</span></NavLink>
                         </li> */}
-                        {isAdmin &&(
+                        {user?.role === "ADMIN_ROLE" &&(
                             <li className="nav-item">
                                 <NavLink to='/admin-product' className='nav-link'>
                                     <span>Admin. Product</span>
                                 </NavLink>
                             </li>
                         )}
-                        {isAdmin &&(
+                        {user?.role === "ADMIN_ROLE" &&(
                             <li className="nav-item">
                                 <NavLink to='/admin-users' className='nav-link'>
                                     <span>Admin. Users</span>
@@ -58,8 +58,10 @@ export default function Header(){
                 </nav>
                 <div className="user-info">    
                     <div className="user-data">
-                        <div className="user-name">
-                            Macchioli Nicolás
+                        <div className="nav-item">
+                            {user  ? <NavLink className='nav-link' onClick={logout}><span>Logout</span></NavLink>
+                            : <NavLink to='/login' className='nav-link'><span>Login </span> </NavLink>
+                            }
                         </div>
                         <img className="user-image" src={userImage} alt="" />
                     </div>

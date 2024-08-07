@@ -260,6 +260,9 @@ label.burger-menu{
         background-color: var(--secondary-color); 
         transition: width 0.3s ease-in-out; 
     }
+    .nav-item:not(:last-child){
+        border-bottom: none;
+    }
     .our-services{
         flex-direction: row;
     }
