@@ -9,7 +9,7 @@
     .add-btn-container{
         display: block;
         text-align: left;
-        padding-left: 5rem;
+        padding-left: 12rem;
         padding-top: 2rem;
         padding-bottom:.5rem;
         width: 100%;
@@ -32,7 +32,7 @@
     overflow-x: auto;
     max-width: 100%;
     margin: 0 auto;
-    padding: 0 2rem 2rem 2rem;
+    padding: 2rem 2rem 2rem 2rem;
 
 }
 .admin-users-table{
@@ -101,10 +101,11 @@
     }
 }
 
-.course-image{
+.user-image{
     width: 70px;
     height: 70px;
     object-fit: cover;
+    border-radius: 50%
 }
 tfoot{
     text-align: right;

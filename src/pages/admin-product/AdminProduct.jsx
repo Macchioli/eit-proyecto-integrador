@@ -60,7 +60,6 @@ async function getProducts(){
 
 function handleEditProduct(producto){
         setIsEditing(true)
-        console.log("Los datos con los que relleno edit:", producto)
         // Setear formulario con los datos de mi producto
         setValue("id", producto._id);
         setValue("name", producto.name)
@@ -74,7 +73,6 @@ function handleEditProduct(producto){
 }
 
 function onSubmit(data){
-    console.log("La data es:",data)
     // reset();
     // handleClose();
 
@@ -97,7 +95,7 @@ function onSubmit(data){
         formData.append("createdAt", new Date(data.createdAt).getTime())
         formData.append("category", data.category)  /* Doy el valor correspondiente de forma manual */
 
-        console.log("Esta es la datita", data)
+        
         reset();
         handleClose();
         if(data.id){
@@ -111,12 +109,12 @@ function onSubmit(data){
 async function createProduct(product){
     try {
         console.log("El producto recibido en create product:" , product)
-        const newProduct = await api.post(`/products`, product)
+        await api.post(`/products`, product)
         getProducts();
         Swal.fire({
             icon: "success",
             title: "¡Listo!",
-            text: `${newProduct.data.name} agregado correctamente 🚀`,
+            text: `Curso agregado agregado correctamente 🚀`,
             confirmButtonColor: "#2b285b"
         });
 
@@ -134,7 +132,6 @@ async function updateProduct(productFormData){
     
     try {
         const id = productFormData.get("id")
-        console.log("El id es:", id)
         await api.put(`/products/${id}`, productFormData)
 
         getProducts();
@@ -143,7 +140,7 @@ async function updateProduct(productFormData){
         Swal.fire({
             icon: "success",
             title: "¡Listo!",
-            text: `Curso ${productFormData.name} actualizado correctamente`,
+            text: `Curso actualizado correctamente`,
             confirmButtonColor: "#2b285b"
         });
 

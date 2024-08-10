@@ -1,18 +1,18 @@
 import { useForm } from 'react-hook-form'
 import './RegisterForm.css'
-import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const URL = 'https://6622ed703e17a3ac846e40e5.mockapi.io/api'
+import useApi from "../../services/interceptor/Interceptor";
+
 
 export default function RegisterForm(){
 
+    const api = useApi();
 
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
 
 
     function onSubmit(data){
-        
         if(data.password !== data.repeatPassword){
             Swal.fire({
                 title: "¡Lo sentimos!",
@@ -23,21 +23,24 @@ export default function RegisterForm(){
             return
         }
 
-        const usr = {
-            name: data.name,
-            lastname: data.lastname,
-            email: data.email,
-            password: data.password,
-            bornDate: new Date(data.bornDate).getTime(),
-            location: data.location
-        }
+        const formData = new FormData();
 
-        registerUser(usr);
+        formData.append("id", data.id)
+        formData.append("fullname", data.fullname)
+        formData.append("email", data.email)
+        formData.append("password", data.password)
+        formData.append("bornDate", new Date(data.bornDate).getTime())
+        formData.append("image", data.image.length ? data.image[0] : undefined)
+
+
+
+        registerUser(formData);
     }
 
     async function registerUser(user){
         try{
-            await axios.post(`${URL}/users`, user)
+            console.log("Register user recibe:", user)
+            await api.post(`/users`, user)
             Swal.fire({
                 title: "¡Bienvenido/a!",
                 text: "Usuario registrado correctamente",
@@ -62,34 +65,17 @@ export default function RegisterForm(){
             <h1 className="register-title">Registro</h1>
             <form className="form-register-container" onSubmit={handleSubmit(onSubmit)}>
                 <div className="input-group">
-                    <label htmlFor="name">Nombre</label>
-                    <input type="text" {...register("name",{
+                    <label htmlFor="name">Nombre y apellido</label>
+                    <input type="text" {...register("fullname",{
                             required: true,
                             minLength: 3,
-                            maxLength: 15,})} name="name" id="name" placeholder='Ingrese su nombre'/>
-                    {errors.name?.type === "required" && (
+                            maxLength: 50,})} name="fullname" id="fullname" placeholder='Ingrese su nombre y apellido'/>
+                    {errors.fullname?.type === "required" && (
                     <span className="input-error">El campo es requerido</span>
                     )}
 
-                    {(errors.name?.type === "minLength" ||
-                    errors.name?.type === "maxLength") && (
-                    <span className="input-error">
-                        La cantidad de caracteres es inválida
-                    </span>
-                    )}
-                </div>
-                <div className="input-group">
-                    <label htmlFor="lastname">Apellido</label>
-                    <input type="text" {...register("lastname", { 
-                            required: true,
-                            minLength: 3,
-                            maxLength: 25})} name="lastname" id="lastname" placeholder="Ingrese su apellido" />
-                    {errors.lastname?.type === "required" && (
-                    <span className="input-error">El campo es requerido</span>
-                    )}
-
-                    {(errors.lastname?.type === "minLength" ||
-                    errors.lastname?.type === "maxLength") && (
+                    {(errors.fullname?.type === "minLength" ||
+                    errors.fullname?.type === "maxLength") && (
                     <span className="input-error">
                         La cantidad de caracteres es inválida
                     </span>
@@ -137,6 +123,10 @@ export default function RegisterForm(){
                     )}
                 </div>
                 <div className="input-group">
+                                <label htmlFor="image" className="form-label">Imagen</label>
+                                <input type="file" accept="image/*" {...register("image")} />
+                </div>
+                {/* <div className="input-group">
                     <label htmlFor="location">Seleccione su provincia</label>
                     <select {...register("location", {required: true})} name="location">
                         <option value="Buenos Aires">Buenos Aires</option>
@@ -167,7 +157,7 @@ export default function RegisterForm(){
                       {errors.location?.type === "required" && (
                       <span className="input-error">El campo es requerido</span>
                       )}
-                </div>
+                </div> */}
                 
                 <button type="submit" className="form-button">Registrarme</button>
             </form>
