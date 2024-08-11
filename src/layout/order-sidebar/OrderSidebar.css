@@ -141,7 +141,23 @@
             }
         }
     }
+    .checkout{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .checkout button{
+        width: 100%;
+        padding: 1rem;
+        background-color: var(--primary-color);
+        transition: all .3s ease-in-out;
 
+        &:hover{
+            cursor: pointer;
+            background-color: var(--secondary-color);
+
+        }
+    }
     .total {
         display: flex;
         justify-content: end;

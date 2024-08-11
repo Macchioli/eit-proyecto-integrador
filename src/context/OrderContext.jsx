@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import './OrderContext.css'
+import { useUser } from "./UserContext";
+import useApi from "../services/interceptor/Interceptor";
 
 const OrderContext = createContext() /* Me provee react para crear el contexto */
 
@@ -10,87 +12,92 @@ export const useOrder = () => useContext(OrderContext) /* Hook de react a partir
 export const OrderProvider = ({children}) =>{ /* Componente que me brinda ciertos servicios a partir del hijo que recibo */
 
 
+    const {user, token} = useUser()
+    const api = useApi();
+
+    const ORDER = {
+        user: null,
+        products: [],
+        total: 0,
+    }
+
     //Estado de la orden
 
     const [order, setOrder] = useState(
-        JSON.parse(localStorage.getItem("order")) || []
+        JSON.parse(localStorage.getItem("order")) || ORDER
     )
-        
+       
+
     const [count, setCount] = useState(0); /* Asigno un estado de count inicializado en 0 */
 
     const [sidebarToggle, setSidebarToggle] = useState(false)
 
     useEffect(()=>{
-        calculateTotal();
         calculateCount();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [order]) /* Uso de un efecto cuando un elemento ha sido actualizado Lo que digo aca es que se actualice en base a "order". Alguien hizo set order? ejecutamos nuevamente la función una vez que el elemento se pinto */
 
-    const [total, setTotal] = useState(0)
+    const [total] = useState(0)
 
-    function calculateTotal(){
+   
+    function calculateTotal(ARRAY_CONTAR){
         
         let totalCount = 0;
 
-        order.forEach(prod =>{
+        ARRAY_CONTAR.forEach(prod =>{
             totalCount += prod.price * prod.quantity
         })
 
-        setTotal(totalCount)
+        return totalCount
     }
 
     function calculateCount(){
+        console.log("Order de calculateCount",order)
         let count = 0;
-        order.forEach((prod)=> count += prod.quantity)
+        order.products.forEach((prod)=> count += prod.quantity)
 
         setCount(count);
     }
 
-    //Function Agregar producto
 
     function addOrderItem(producto){
 
-       // Buscar en la orden si existe el producto y si existe añadimos 1 a quantity
-       // Si no existe lo añadimos al array
 
-       const product = order.find(prod => prod.id === producto.id) 
+       const product = order.products.find(prod => prod.product === producto._id) 
        
        if(product){
-        handleChanqeQuantity(product.id, product.quantity + 1)
+        
+        handleChanqeQuantity(product.product, product.quantity + 1) /* El product.product es en base a la orden product es donde esta el id */
        }
        else{
-        producto.quantity = 1;
 
-        setOrder([...order, producto]) /* Un array nuevo con todo lo que esta en order mas el producto que recibo */
-        localStorage.setItem("order", JSON.stringify([...order, producto]))
-        
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: false,
-
-          });
-          Toast.fire({
-            customClass:{
-                container: 'modal-confirm'
-            },
-            icon: "success",
-            title: "Curso añadido a tu orden"
-          });
+        const newOrderProduct = {
+            product: producto._id,
+            quantity: 1,
+            price: producto.price,
+            image: producto.image,
+            name: producto.name /* Agrego name image y price, voy a modificar el estado de la orden pero ademas debo pasarlo para el sidebar */
+        }
+        const products = [ ...order.products, newOrderProduct]
 
 
+
+        const total = calculateTotal(products)
+
+        setOrder({...order, products, total: total});
         }        
 
     }
 
+
     function handleChanqeQuantity(id, quantity){
         
-        const updatedOrder = order.map(item => {
 
-            if(item.id === id) {
+        console.log("ENTRO A CAMBIAR CANTIDAD", id)
+
+        const updProducts = order.products.map(item => {
+
+            if(item.product === id) {
 
                 item.quantity = +quantity;/* Pongo el + para tomarlo transformarlo como número */
             }
@@ -98,46 +105,83 @@ export const OrderProvider = ({children}) =>{ /* Componente que me brinda cierto
             return item;
         })
 
-        setOrder(updatedOrder);
-        localStorage.setItem("order", JSON.stringify(updatedOrder))
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: false,
-          });
-          Toast.fire({
-            customClass:{
-                container: 'modal-confirm'
-            },
-            icon: "success",
-            title: "Se actualizó tu orden"
-          });
+        const total = calculateTotal(updProducts)
+        setOrder({...order, products: updProducts, total});
+        // localStorage.setItem("order", JSON.stringify(updProducts))
 
 
     }
+
+    /* Función para quitar elemento de mi order */
 
     function removeItem(id){
 
         Swal.fire({
             title: 'Borrar producto',
-            text: '¿Realmente deseas quitar este producto?',
+            text: '¿Realmente desea quitar este producto?',
             icon: "warning",
             showCancelButton: true,
             showConfirmButton: true,
             confirmButtonText: 'Borrar',
-            confirmButtonColor: 'var(--secondary-color)',
             cancelButtonText: 'Cancelar',
-            cancelButtonColor: 'var(--primary-color)',
             reverseButtons: true
         }).then(result => {
             if(result.isConfirmed){
-                const updOrder = order.filter(prod => prod.id !== id) /* Todos los productos devuelve menos cuando el id del producto es distinto al recibido (el que quiero eliminar) ya que devuelve false */
-                setOrder(updOrder);
-                localStorage.setItem("order", JSON.stringify(updOrder))
+                const products = order.products.filter(prod => prod.product !== id) /* Todos los productos devuelve menos cuando el id del producto es distinto al recibido (el que quiero eliminar) ya que devuelve false */
+                
+                const total = calculateTotal(products)
+                setOrder({...order, products, total});
+                // localStorage.setItem("order", JSON.stringify(updOrder))
             }
         })
+    }
+    async function postOrder(){
+        try {
+            console.log("Esta es la orden que recibo", order)
+            //Chequear si el usuario esta logueado
+            if(!user || !token ){
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Debe estar logueado para realizar una orden',
+                    icon: 'warning',
+                    timer: 4000
+                })
+                return
+            }
+
+            const products = order.products.map(item => {
+                return{
+                    quantity: item.quantity,
+                    product: item.product,
+                    price: item.price
+                }
+            })
+            //Armar el objeto order para el backend
+            const nuevaOrden = {
+                total: order.total,
+                user: user._id,
+                products 
+            }
+            
+            const response = await api.post("/orders", nuevaOrden)
+
+            if(!response) throw new Error('Error al enviar la orden')
+            //Enviarlo
+            Swal.fire("Orden creada", "La orden se creó correctamente", "success")
+
+            setOrder(ORDER);
+
+
+            //REQUERIMIENTO OBLIGATORIO
+
+            const orders = await api.get(`/orders/${user._id}`)
+
+            console.log(orders.data)
+
+        } catch (error) {
+            console.log(error)
+            Swal.fire("Error", "Error al crear orden", "error")
+        }
     }
 
     function toggleSidebarOrder(){
@@ -145,7 +189,7 @@ export const OrderProvider = ({children}) =>{ /* Componente que me brinda cierto
     }
 
     return(
-        <OrderContext.Provider value={{ order, addOrderItem, total, handleChanqeQuantity, removeItem, toggleSidebarOrder, sidebarToggle, count }} >
+        <OrderContext.Provider value={{ order, addOrderItem, total, handleChanqeQuantity, removeItem, postOrder, toggleSidebarOrder, sidebarToggle, count }} >
 
             {children}
 
