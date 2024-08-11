@@ -5,7 +5,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function OrderSidebar(){
 
-	const { order, total, handleChanqeQuantity, removeItem, sidebarToggle } = useOrder();
+	const { order, total, handleChanqeQuantity, removeItem, postOrder, sidebarToggle } = useOrder();
 
     return (
 		<div className={`order-wrapper ${sidebarToggle ? 'active' : ""}`}> 
@@ -14,10 +14,10 @@ export default function OrderSidebar(){
 				
 				<ul className="order-list">
 					{
-						order.map(product => {
+						order.products.map(product => {
 							return (
-								<li className='order-item' key={product.id}>
-									<img className='order-image' src={product.image ?? 'https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png'} alt="" />
+								<li className='order-item' key={product._id}>
+									<img className='order-image' src={`http://localhost:3000/images/products/${product.image}`} alt="" />
 
 									<div className="order-item-name" title={product.name}>
 										{product.name}
@@ -25,7 +25,7 @@ export default function OrderSidebar(){
 									<div className="order-quantity">
 										<input type="number" className='order-quantity-input' 
 										value={product.quantity} 
-										onChange={(evt) => handleChanqeQuantity(product.id, evt.target.value)}
+										onChange={(evt) => handleChanqeQuantity(product.product, evt.target.value)}
 										min={1}
                                         max={100}
                                         />
@@ -36,8 +36,9 @@ export default function OrderSidebar(){
 									<div className="order-actions">
 										<FontAwesomeIcon icon={faTrash} 
 										title='Eliminar producto'
-										onClick={() => removeItem(product.id)} />
+										onClick={() => removeItem(product.product)} />
 									</div>
+									
 								</li>
 
 							)
@@ -51,6 +52,11 @@ export default function OrderSidebar(){
 					<div className="total-price">
 						Total $ <span>{total}</span>
 					</div>
+				</div>
+				<div className="checkout">
+					<button className="checkout-btn" onClick={() => postOrder()}>
+						Finalizar compra
+					</button>
 				</div>
 			</div>
 		</div>
