@@ -5,7 +5,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function OrderSidebar(){
 
-	const { order, total, handleChanqeQuantity, removeItem, postOrder, sidebarToggle } = useOrder();
+	const { order, handleChanqeQuantity, removeItem, postOrder, sidebarToggle } = useOrder();
 
     return (
 		<div className={`order-wrapper ${sidebarToggle ? 'active' : ""}`}> 
@@ -50,7 +50,7 @@ export default function OrderSidebar(){
 			<div className="order-finish">
 				<div className="total">
 					<div className="total-price">
-						Total $ <span>{total}</span>
+						Total $ <span>{order.total}</span>
 					</div>
 				</div>
 				<div className="checkout">
